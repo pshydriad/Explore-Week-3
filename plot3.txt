@@ -1,0 +1,46 @@
+## ----------EXPLORATORY DATA ANALYSIS -------------
+## --                              
+## --   Week Three Assignment
+## --   Open Exploration of pollution dataset.
+## --                              
+## ------------------------------------------------- 
+
+
+## Read in the data files.  
+## Note, the first file is quite large and will take a while to load.
+NEI <- readRDS("RDS/summarySCC_PM25.rds")
+SCC <- readRDS("RDS/Source_Classification_Code.rds")
+
+
+#######################################################################################
+##
+## 3
+##
+## Of the four types of sources indicated by the type (point, nonpoint, onroad, nonroad) 
+## variable, which of these four sources have seen decreases in emissions from 1999–2008 for 
+## Baltimore City? Which have seen increases in emissions from 1999–2008? Use the ggplot2 plotting 
+## system to make a plot answer this question.
+##
+#######################################################################################
+
+##install.packages("plyr")
+library(plyr)
+
+##install.packages("ggplot2")
+library(ggplot2)
+##install.packages("plyr")
+library(plyr)
+
+Plot_data <- ddply(NEI, c("year","type"), summarise, Total_Emissions=sum(Emissions))
+
+png("plot3.png", width = 480, height = 480)
+ggplot(data=Plot_data, aes(x=year, y=Total_Emissions, group=type, colour=type)) +
+    ggtitle("Total Emissions over Time by Type") +
+    geom_line() +
+    geom_point()
+dev.off()
+
+
+
+
+
